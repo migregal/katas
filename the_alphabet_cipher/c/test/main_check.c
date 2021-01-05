@@ -135,7 +135,7 @@ Suite *alphabet_suite(void)
     tcase_add_test(tc_dechiper, test_dechiper_1);
     tcase_add_test(tc_dechiper, test_dechiper_2);
     tcase_add_test(tc_dechiper, test_dechiper_3);
-    suite_add_tcase(s, tc_decode);
+    suite_add_tcase(s, tc_dechiper);
 
     return s;
 }
