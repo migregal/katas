@@ -13,19 +13,19 @@ UNITOBJS := $(UNITSRCS:unit_tests/%.c=out/%.o)
 all : app.exe
 
 init :
-	mkdir inc src func_tests unit_tests
+	@mkdir inc src func_tests unit_tests
 
 run : app.exe
-	./app.exe $(args)
+	@./app.exe $(args)
 
 app.exe : $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ -lm
+	@$(CC) $(CFLAGS) -o $@ $^ -lm
 
 debug func: CFLAGS += -g -fno-inline -fno-omit-frame-pointer -O0 --coverage
 debug : all
 
 runmem : debug
-	drmemory -- ./app.exe $(args)
+	@drmemory -- ./app.exe $(args)
 
 gcov :
 	@rm -f out/*.c.gcov
@@ -48,10 +48,10 @@ unit : unit_tests.exe
 			-Ee "s/.+ Assertion.+/\x1B[0;31m&\x1B[0m/g"
 
 unit_tests.exe : $(UNITOBJS) $(filter-out out/main.o, $(OBJS))
-	$(CC) $(CFLAGS) $(flags) -o $@ $^ $(UNITCFLAGS)
+	@$(CC) $(CFLAGS) $(flags) -o $@ $^ $(UNITCFLAGS)
 
 out :
-	mkdir out
+	@mkdir out
 
 out/%.d: ./src/%.c | ./out
 	@set -e; rm -f $@; \
@@ -60,13 +60,13 @@ out/%.d: ./src/%.c | ./out
 		rm -f $@.$$$$
 
 out/check_%.o : unit_tests/check_%.c | ./out
-	$(CC) $(CFLAGS) $(flags) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(flags) -o $@ -c $<
 
 out/%.o : ./src/%.c | ./out
-	$(CC) $(CFLAGS) $(flags) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(flags) -o $@ -c $<
 
 clean :
-	@rm -f *.exe out/*.o out/*.d out/*.gcda out/*.gcno
+	@rm -rf *.exe ./out
 
 dev :
 	@clear
