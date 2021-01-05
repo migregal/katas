@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "alphabet.h"
 
@@ -9,8 +8,8 @@ char *encode(char *key, char *msg)
 {
     char *s = strdup(msg);
 
-    for (char *c = s, *k = key; *c != '\0'; c++, k = *(k + 1) == '\0' ? key : k + 1)
-        *c = tolower(((toupper(*k) - 'A') + (toupper(*c) - 'A')) % 26 + 'A');
+    for (char *c = s, *k = key; *c != '\0'; c++, k = *k == '\0' ? key : k)
+        *c = ((*(k++) - 'a') + (*c - 'a')) % 26 + 'a';
 
     return s;
 }
@@ -19,8 +18,8 @@ char *decode(char *key, char *str)
 {
     char *s = strdup(str);
 
-    for (char *c = s, *k = key; *c != '\0'; c++, k = *(k + 1) == '\0' ? key : k + 1)
-        *c = tolower((26 + (toupper(*c) - 'A') - (toupper(*k) - 'A')) % 26 + 'A');
+    for (char *c = s, *k = key; *c != '\0'; c++, k = *k == '\0' ? key : k)
+        *c = (26 + (*c - 'a') - (*(k++) - 'a')) % 26 + 'a';
 
     return s;
 }
@@ -33,7 +32,7 @@ char *dechiper(char *msg, char *str)
     char *key = strdup(str);
 
     for (char *c = str, *m = msg, *k = key; *c != '\0'; c++, k++, m++)
-        *k = tolower((26 + (toupper(*c) - 'A') - (toupper(*m) - 'A')) % 26 + 'A');
+        *k = (26 + (*c - 'a') - (*m - 'a')) % 26 + 'a';
 
     int len = strlen(msg);
 
