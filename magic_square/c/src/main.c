@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    double values[9] = { 0 };
+    double values[9] = {0};
 
     for (int i = 0; i < N * N; i++)
         scanf("%lf", values + i);
