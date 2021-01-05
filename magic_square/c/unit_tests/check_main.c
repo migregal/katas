@@ -80,32 +80,13 @@ START_TEST(one_hundred_random_magic_squares)
     srand48(202101051154LL);
 
     double values[N * N] = { 0 };
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 100; i++)
     {
         for (int j = 0; j < N * N; j++)
             values[j] = floor((double) rand() / RAND_MAX * 10);
 
         if (!make_magic_square(values))
             is_magic(values);
-    }
-}
-END_TEST
-
-START_TEST(one_hundred_magic_squares)
-{
-    srand48(202101051201LL);
-
-    double values[N * N] = { 0 };
-    for (int i = 0; i < 1000; i++)
-    {
-        for (int j = 0; j < N * N; j++)
-            values[j] = 0;
-
-        for (int j = 0; j < N * (N * N + 1) / 2; j++)
-            values[rand() % (N * N)] += 1;
-
-        ck_assert_int_eq(make_magic_square(values), 0);
-        is_magic(values);
     }
 }
 END_TEST
@@ -126,7 +107,6 @@ Suite *magic_suit(void)
     tcase_add_test(tc_pos, zeros);
     tcase_add_test(tc_pos, base_square);
     tcase_add_test(tc_pos, one_hundred_random_magic_squares);
-    tcase_add_test(tc_pos, one_hundred_magic_squares);
     suite_add_tcase(s, tc_pos);
 
     return s;
